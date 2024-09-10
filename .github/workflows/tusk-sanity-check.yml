@@ -1,0 +1,55 @@
+# This allows Tusk to manually run workflows to check lint/build/tests before creating a PR.
+# See https://docs.usetusk.ai/tusk-github-workflow for more information.
+# If you have any questions, please reach out to support@usetusk.ai.
+
+name: Tusk Sanity Check
+
+on:
+  workflow_dispatch:
+    inputs:
+      taskId:
+        description: "Tusk Task ID"
+        required: true
+      runType:
+        description: "Tusk Run Type"
+        required: true
+      runId:
+        description: "Tusk Run ID"
+        required: true
+      testFiles:
+        description: "Test files to run"
+        required: false
+
+jobs:
+  sanity_check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Log inputs
+        run: |
+          echo "Tusk Task ID: ${{ github.event.inputs.taskId }}"
+          echo "Tusk Run Type: ${{ github.event.inputs.runType }}"
+          echo "Tusk Run ID: ${{ github.event.inputs.runId }}"
+          echo "Test Files: ${{ github.event.inputs.testFiles }}"
+          echo "Current Branch: ${{ github.ref }}"
+
+      # TODO: Fix this, but for now "mocked" sanity check
+
+      # - uses: actions/checkout@v4
+      #   with:
+      #     ref: ${{ github.ref }}
+      #     fetch-depth: 0
+
+      # - name: Set Node.js 12
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: 12
+      
+      # - name: Install dependencies
+      #   run: yarn install
+      
+      # - name: Build app
+      #   run: yarn build:app
+
